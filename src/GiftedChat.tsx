@@ -161,7 +161,9 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   /*Custom message container */
   renderMessage?(message: Message<TMessage>['props']): React.ReactNode
   /* Custom message text */
-  renderMessageText?(messageText: MessageText<TMessage>['props']): React.ReactNode
+  renderMessageText?(
+    messageText: MessageText<TMessage>['props'],
+  ): React.ReactNode
   /* Custom message image */
   renderMessageImage?(props: MessageImage<TMessage>['props']): React.ReactNode
   /* Custom view inside the bubble */
@@ -210,6 +212,7 @@ export interface GiftedChatState<TMessage extends IMessage = IMessage> {
   typingDisabled: boolean
   text?: string
   messages?: TMessage[]
+  bottomOffset: number
 }
 
 class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
@@ -395,11 +398,11 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   state = {
     isInitialized: false, // initialization will calculate maxHeight before rendering the chat
     composerHeight: this.props.minComposerHeight,
-    messagesContainerHeight: undefined,
+    messagesContainerHeight: Dimensions.get('window').height,
     typingDisabled: false,
     text: undefined,
     messages: undefined,
-    bottomOffset:40
+    bottomOffset: 40,
   }
 
   constructor(props: GiftedChatProps<TMessage>) {
@@ -459,11 +462,11 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   initLocale() {
     if (
       this.props.locale === null ||
-      moment.locales().indexOf(this.props.locale || 'en') === -1
+      moment.locales().indexOf(this.props.locale || 'th') === -1
     ) {
-      this.setLocale('en')
+      this.setLocale('th')
     } else {
-      this.setLocale(this.props.locale || 'en')
+      this.setLocale(this.props.locale || 'th')
     }
   }
 
@@ -603,7 +606,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard()
       this.setState({
         messagesContainerHeight: newMessagesContainerHeight + 70,
-        bottomOffset:0
+        bottomOffset: 0,
       })
     }
   }
@@ -616,7 +619,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       const newMessagesContainerHeight = this.getBasicMessagesContainerHeight()
       this.setState({
         messagesContainerHeight: newMessagesContainerHeight + 70,
-        bottomOffset:this.state.bottomOffset
+        bottomOffset: this.state.bottomOffset,
       })
     }
   }
@@ -650,11 +653,11 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   renderMessages() {
-    var heightContainer;
-    const height =Dimensions.get("window").height - 200;
-    if(height < this.state.messagesContainerHeight){
+    var heightContainer
+    const height = Dimensions.get('window').height - 200
+    if (height < this.state.messagesContainerHeight) {
       heightContainer = height
-    }else{
+    } else {
       heightContainer = this.state.messagesContainerHeight
     }
     const { messagesContainerStyle, ...messagesContainerProps } = this.props
@@ -662,10 +665,9 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       <View
         style={[
           {
-            height:heightContainer,
+            height: heightContainer,
           },
           messagesContainerStyle,
-          
         ]}
       >
         <MessageContainer<TMessage>
@@ -717,7 +719,6 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   resetInputToolbar() {
-  
     if (this.textInput) {
       this.textInput.clear()
     }
@@ -737,11 +738,9 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     if (this.textInput) {
       this.textInput.focus()
     }
-    
   }
 
   onInputSizeChanged = (size: { height: number }) => {
-  
     const newComposerHeight = Math.max(
       this.props.minComposerHeight!,
       Math.min(this.props.maxComposerHeight!, size.height),
@@ -775,7 +774,6 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   onInitialLayoutViewLayout = (e: any) => {
-  
     const { layout } = e.nativeEvent
     if (layout.height <= 0) {
       return
@@ -792,12 +790,10 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       text: this.getTextFromProp(initialText),
       composerHeight: newComposerHeight,
       messagesContainerHeight: newMessagesContainerHeight,
-      
     })
   }
 
   onMainViewLayout = (e: any) => {
-  
     // fix an issue when keyboard is dismissing during the initialization
     const { layout } = e.nativeEvent
     if (
@@ -806,7 +802,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     ) {
       this.setMaxHeight(layout.height)
       this.setState({
-        messagesContainerHeight: this.getMessagesContainerHeightWithKeyboard() ,
+        messagesContainerHeight: this.getMessagesContainerHeightWithKeyboard(),
       })
     }
     if (this.getIsFirstLayout() === true) {

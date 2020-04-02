@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   Keyboard,
-  
   EmitterSubscription,
   StyleProp,
   ViewStyle,
@@ -19,25 +18,25 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Color.defaultColor,
-    bottom:0,
+    bottom: 0,
     left: 0,
     right: 0,
-    height:60
+    height: 60,
   },
   primary: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:"center",
-    paddingVertical:8,
-    backgroundColor:"#fff"
+    justifyContent: 'center',
+    paddingVertical: 8,
+    backgroundColor: '#fff',
   },
   accessory: {
     height: 44,
-    flex:0.25,
+    flex: 0.25,
     // marginRight:4,
-    flexDirection:"column",
-    justifyContent:"center",
-    alignItems:"center",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 
@@ -56,7 +55,7 @@ export interface InputToolbarProps {
 
 export default class InputToolbar extends React.Component<
   InputToolbarProps,
-  { position: string }
+  { position: string; bottom: number | string }
 > {
   static defaultProps = {
     renderAccessory: null,
@@ -82,7 +81,7 @@ export default class InputToolbar extends React.Component<
 
   state = {
     position: 'absolute',
-    bottom:0
+    bottom: 0,
   }
 
   keyboardWillShowListener?: EmitterSubscription = undefined
@@ -112,7 +111,7 @@ export default class InputToolbar extends React.Component<
     if (this.state.position !== 'relative') {
       this.setState({
         position: 'relative',
-        bottom:-34
+        bottom: -34,
       })
     }
   }
@@ -121,7 +120,7 @@ export default class InputToolbar extends React.Component<
     if (this.state.position !== 'absolute') {
       this.setState({
         position: 'absolute',
-        bottom:0
+        bottom: 0,
       })
     }
   }
@@ -168,18 +167,17 @@ export default class InputToolbar extends React.Component<
         style={
           [
             styles.container,
-            { position: this.state.position},
+            { position: this.state.position },
             this.props.containerStyle,
           ] as ViewStyle
         }
       >
         <View style={[styles.primary, this.props.primaryStyle]}>
-        {this.renderAccessory()}
+          {this.renderAccessory()}
           {this.renderActions()}
           {this.renderComposer()}
           {this.renderSend()}
         </View>
-        
       </View>
     )
   }

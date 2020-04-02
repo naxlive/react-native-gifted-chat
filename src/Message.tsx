@@ -19,7 +19,6 @@ const styles = {
       marginLeft: 8,
       marginRight: 0,
     },
-   
   }),
   right: StyleSheet.create({
     container: {
