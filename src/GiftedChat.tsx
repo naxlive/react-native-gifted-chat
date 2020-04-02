@@ -462,11 +462,11 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   initLocale() {
     if (
       this.props.locale === null ||
-      moment.locales().indexOf(this.props.locale || 'th') === -1
+      moment.locales().indexOf(this.props.locale || 'en') === -1
     ) {
-      this.setLocale('th')
+      this.setLocale('en')
     } else {
-      this.setLocale(this.props.locale || 'th')
+      this.setLocale(this.props.locale || 'en')
     }
   }
 
