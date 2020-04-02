@@ -11,6 +11,7 @@ import {
   FlatList,
   TextStyle,
   KeyboardAvoidingView,
+  Dimensions,
 } from 'react-native'
 
 import {
@@ -398,6 +399,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     typingDisabled: false,
     text: undefined,
     messages: undefined,
+    bottomOffset:40
   }
 
   constructor(props: GiftedChatProps<TMessage>) {
@@ -600,7 +602,8 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       this.setBottomOffset(this.safeAreaIphoneX(this.props.bottomOffset!))
       const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard()
       this.setState({
-        messagesContainerHeight: newMessagesContainerHeight,
+        messagesContainerHeight: newMessagesContainerHeight + 70,
+        bottomOffset:0
       })
     }
   }
@@ -612,7 +615,8 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       this.setBottomOffset(0)
       const newMessagesContainerHeight = this.getBasicMessagesContainerHeight()
       this.setState({
-        messagesContainerHeight: newMessagesContainerHeight,
+        messagesContainerHeight: newMessagesContainerHeight + 70,
+        bottomOffset:this.state.bottomOffset
       })
     }
   }
@@ -646,14 +650,22 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   renderMessages() {
+    var heightContainer;
+    const height =Dimensions.get("window").height - 200;
+    if(height < this.state.messagesContainerHeight){
+      heightContainer = height
+    }else{
+      heightContainer = this.state.messagesContainerHeight
+    }
     const { messagesContainerStyle, ...messagesContainerProps } = this.props
     const fragment = (
       <View
         style={[
           {
-            height: this.state.messagesContainerHeight,
+            height:heightContainer,
           },
           messagesContainerStyle,
+          
         ]}
       >
         <MessageContainer<TMessage>
@@ -705,6 +717,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   resetInputToolbar() {
+  
     if (this.textInput) {
       this.textInput.clear()
     }
@@ -724,9 +737,11 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     if (this.textInput) {
       this.textInput.focus()
     }
+    
   }
 
   onInputSizeChanged = (size: { height: number }) => {
+  
     const newComposerHeight = Math.max(
       this.props.minComposerHeight!,
       Math.min(this.props.maxComposerHeight!, size.height),
@@ -736,7 +751,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     )
     this.setState({
       composerHeight: newComposerHeight,
-      messagesContainerHeight: newMessagesContainerHeight,
+      messagesContainerHeight: newMessagesContainerHeight + 70,
     })
   }
 
@@ -760,6 +775,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   onInitialLayoutViewLayout = (e: any) => {
+  
     const { layout } = e.nativeEvent
     if (layout.height <= 0) {
       return
@@ -776,10 +792,12 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       text: this.getTextFromProp(initialText),
       composerHeight: newComposerHeight,
       messagesContainerHeight: newMessagesContainerHeight,
+      
     })
   }
 
   onMainViewLayout = (e: any) => {
+  
     // fix an issue when keyboard is dismissing during the initialization
     const { layout } = e.nativeEvent
     if (
@@ -788,7 +806,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     ) {
       this.setMaxHeight(layout.height)
       this.setState({
-        messagesContainerHeight: this.getBasicMessagesContainerHeight(),
+        messagesContainerHeight: this.getMessagesContainerHeightWithKeyboard() ,
       })
     }
     if (this.getIsFirstLayout() === true) {

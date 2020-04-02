@@ -8,7 +8,8 @@ import { Omit, IMessage, User, LeftRightStyle } from './types'
 const styles = {
   left: StyleSheet.create({
     container: {
-      marginRight: 8,
+      marginRight: 10,
+      top:0
     },
     onTop: {
       alignSelf: 'flex-start',

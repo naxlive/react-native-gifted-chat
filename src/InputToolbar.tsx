@@ -19,17 +19,25 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Color.defaultColor,
-    backgroundColor: Color.white,
-    bottom: 0,
+    bottom:0,
     left: 0,
     right: 0,
+    height:60
   },
   primary: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    justifyContent:"center",
+    paddingVertical:8,
+    backgroundColor:"#fff"
   },
   accessory: {
     height: 44,
+    flex:0.25,
+    // marginRight:4,
+    flexDirection:"column",
+    justifyContent:"center",
+    alignItems:"center",
   },
 })
 
@@ -74,6 +82,7 @@ export default class InputToolbar extends React.Component<
 
   state = {
     position: 'absolute',
+    bottom:0
   }
 
   keyboardWillShowListener?: EmitterSubscription = undefined
@@ -103,6 +112,7 @@ export default class InputToolbar extends React.Component<
     if (this.state.position !== 'relative') {
       this.setState({
         position: 'relative',
+        bottom:-34
       })
     }
   }
@@ -111,6 +121,7 @@ export default class InputToolbar extends React.Component<
     if (this.state.position !== 'absolute') {
       this.setState({
         position: 'absolute',
+        bottom:0
       })
     }
   }
@@ -157,17 +168,18 @@ export default class InputToolbar extends React.Component<
         style={
           [
             styles.container,
-            { position: this.state.position },
+            { position: this.state.position},
             this.props.containerStyle,
           ] as ViewStyle
         }
       >
         <View style={[styles.primary, this.props.primaryStyle]}>
+        {this.renderAccessory()}
           {this.renderActions()}
           {this.renderComposer()}
           {this.renderSend()}
         </View>
-        {this.renderAccessory()}
+        
       </View>
     )
   }

@@ -23,7 +23,7 @@ const textStyle = {
   marginTop: 5,
   marginBottom: 5,
   marginLeft: 10,
-  marginRight: 10,
+  marginRight: 15,
 }
 
 const styles = {
@@ -41,7 +41,7 @@ const styles = {
   right: StyleSheet.create({
     container: {},
     text: {
-      color: 'white',
+      // color: '#fff',
       ...textStyle,
     },
     link: {

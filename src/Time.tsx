@@ -15,14 +15,15 @@ const containerStyle = {
 }
 
 const textStyle = {
-  fontSize: 10,
+  fontSize: 9,
   backgroundColor: 'transparent',
-  textAlign: 'right',
+  textAlign: 'left',
 }
 
 const styles = {
   left: StyleSheet.create({
     container: {
+      flexDirection:"column",
       ...containerStyle,
     },
     text: {
@@ -32,10 +33,13 @@ const styles = {
   }),
   right: StyleSheet.create({
     container: {
+      flexDirection:"column",
+      justifyContent:"flex-end",
+      alignItems:"flex-end",
       ...containerStyle,
     },
     text: {
-      color: Color.white,
+      color: Color.timeTextColor,
       ...textStyle,
     },
   }),
@@ -97,6 +101,14 @@ export default class Time<
             containerStyle && containerStyle[position],
           ]}
         >
+          <Text
+           style={
+            [
+              styles[position].text,
+              timeTextStyle && timeTextStyle[position],
+            ] as TextStyle
+          }
+          >READ</Text>
           <Text
             style={
               [
