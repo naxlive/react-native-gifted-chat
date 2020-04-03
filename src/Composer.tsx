@@ -11,9 +11,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: "rgba(0,0,0,0.05)",
     flex: 0.85,
-    paddingBottom:4,
-    paddingTop:4,
-    marginTop:4,
+    paddingBottom:1,
+    paddingTop:1,
   },
   textInput: {
     marginRight:16,
@@ -112,8 +111,9 @@ export default class Composer extends React.Component<ComposerProps> {
   }
 
   render() {
+    console.tron.log("this.props.composerHeight",this.props.composerHeight)
     return (
-      <View style={styles.textInputContainer}>
+      <View style={[styles.textInputContainer,this.props.composerHeight > 34 ?{marginBottom:3,marginTop:3}:{marginTop:1,marginBottom:1}]}>
         <TextInput
               testID={this.props.placeholder}
               accessible
@@ -128,7 +128,7 @@ export default class Composer extends React.Component<ComposerProps> {
               style={[
                 styles.textInput,
                 this.props.textInputStyle,
-                {
+                { 
                   height: this.props.composerHeight,
                   ...Platform.select({
                     web: {
