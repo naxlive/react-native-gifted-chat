@@ -9,7 +9,7 @@ import { TIME_FORMAT } from './Constant'
 import { LeftRightStyle, IMessage } from './types'
 
 const containerStyle = {
-  marginLeft: 10,
+  marginLeft: 18,
   marginRight: 10,
   marginBottom: 5,
 }
@@ -39,7 +39,7 @@ const styles = {
       ...containerStyle,
     },
     text: {
-      color: Color.timeTextColor,
+      color:"#6F7783",
       ...textStyle,
     },
   }),
@@ -108,7 +108,7 @@ export default class Time<
               timeTextStyle && timeTextStyle[position],
             ] as TextStyle
           }
-          >READ</Text>
+          >อ่านแล้ว</Text>
           <Text
             style={
               [
@@ -117,9 +117,7 @@ export default class Time<
               ] as TextStyle
             }
           >
-            {moment(currentMessage.createdAt)
-              .locale(this.context.getLocale())
-              .format(timeFormat)}
+            {moment(currentMessage.createdAt, "YYYY-MM-DD HH:mm:ss").format("HH:mm")}
           </Text>
         </View>
       )

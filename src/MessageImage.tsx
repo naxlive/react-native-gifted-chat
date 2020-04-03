@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     width: 240,
     height: 160,
     borderRadius: 13,
-    margin: 3,
+    margin: 0,
     resizeMode: 'cover',
   },
   welcomeImage :{

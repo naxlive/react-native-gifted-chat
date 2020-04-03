@@ -605,7 +605,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       this.setBottomOffset(this.safeAreaIphoneX(this.props.bottomOffset!))
       const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard()
       this.setState({
-        messagesContainerHeight: newMessagesContainerHeight + 70,
+        messagesContainerHeight: newMessagesContainerHeight + 68,
         bottomOffset: 0,
       })
     }
@@ -618,7 +618,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       this.setBottomOffset(0)
       const newMessagesContainerHeight = this.getBasicMessagesContainerHeight()
       this.setState({
-        messagesContainerHeight: newMessagesContainerHeight + 70,
+        messagesContainerHeight: newMessagesContainerHeight + 72,
         bottomOffset: this.state.bottomOffset,
       })
     }
@@ -654,7 +654,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
 
   renderMessages() {
     var heightContainer
-    const height = Dimensions.get('window').height - 200
+    const height = Dimensions.get('window').height - 190
     if (height < this.state.messagesContainerHeight) {
       heightContainer = height
     } else {
@@ -750,7 +750,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     )
     this.setState({
       composerHeight: newComposerHeight,
-      messagesContainerHeight: newMessagesContainerHeight + 70,
+      messagesContainerHeight: newMessagesContainerHeight + 68,
     })
   }
 

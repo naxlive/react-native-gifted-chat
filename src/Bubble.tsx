@@ -92,7 +92,7 @@ const styles = {
     },
     wrapper: {
       borderRadius: 15,
-      backgroundColor: '#8CDB66',
+      // backgroundColor: '#8CDB66',
       marginLeft: 60,
       minHeight: 20,
       marginRight: 2,
@@ -508,10 +508,8 @@ export default class Bubble<
   renderBubbleContent() {
     return this.props.isCustomViewBottom ? (
       <View>
-        <View style={styles[this.props.position].talkBubble}>
-          <View style={styles[this.props.position].talkBubbleSquare} />
-          <View style={styles[this.props.position].talkBubbleTriangle} />
-        </View>
+        
+       
         {this.renderMessageImage()}
         {this.renderMessageVideo()}
         {this.renderMessageText()}
@@ -519,10 +517,6 @@ export default class Bubble<
       </View>
     ) : (
       <View>
-        <View style={styles[this.props.position].talkBubble}>
-          <View style={styles[this.props.position].talkBubbleSquare} />
-          <View style={styles[this.props.position].talkBubbleTriangle} />
-        </View>
         {this.renderCustomView()}
         {this.renderMessageImage()}
         {this.renderMessageVideo()}
@@ -652,7 +646,7 @@ export default class Bubble<
                     bottomContainerStyle && bottomContainerStyle[position],
                   ]}
                 >
-                  <View style={{ backgroundColor: 'red' }}>
+                  <View>
                     {this.renderUsername()}
                     {this.renderTime()}
                     {this.renderTicks()}

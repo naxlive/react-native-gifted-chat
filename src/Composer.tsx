@@ -6,17 +6,21 @@ import Color from './Color'
 
 const styles = StyleSheet.create({
   textInputContainer :{
-    backgroundColor: "#F5F8F6",
+    backgroundColor: "#f0f0f0",
     borderRadius: 22,
     borderWidth: 0.5,
-    borderColor: "#C2C6CA",
+    borderColor: "rgba(0,0,0,0.05)",
     flex: 0.85,
+    paddingBottom:4,
+    paddingTop:4,
+    marginTop:4,
   },
   textInput: {
-    marginRight: 8,
-    marginLeft: 8,
-    fontSize: 16,
-    lineHeight: 18,
+    marginRight:16,
+    marginLeft:16,
+    fontSize: 15,
+    lineHeight:20,
+    textAlignVertical:"center",
     ...Platform.select({
       web: {
         paddingTop: 6,
@@ -24,12 +28,12 @@ const styles = StyleSheet.create({
       },
     }),
     marginTop: Platform.select({
-      ios: 6,
+      ios: 0,
       android: 0,
       web: 6,
     }),
     marginBottom: Platform.select({
-      ios: 5,
+      ios: 0,
       android: 3,
       web: 4,
     }),

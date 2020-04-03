@@ -21,19 +21,20 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 60,
+    marginTop:8,
+    marginBottom:4
   },
   primary: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 8,
+    paddingVertical: 0,
     backgroundColor: '#fff',
+    paddingBottom:4
   },
   accessory: {
     height: 44,
     flex: 0.25,
-    // marginRight:4,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
