@@ -111,7 +111,7 @@ export default class Composer extends React.Component<ComposerProps> {
   }
 
   render() {
-    console.tron.log("this.props.composerHeight",this.props.composerHeight)
+ 
     return (
       <View style={[styles.textInputContainer,this.props.composerHeight > 34 ?{marginBottom:3,marginTop:3}:{marginTop:1,marginBottom:1}]}>
         <TextInput
