@@ -12,10 +12,11 @@ const styles = StyleSheet.create({
     borderColor: "rgba(0,0,0,0.05)",
     flex: 0.85,
     paddingBottom:1,
-    paddingTop:1,
+    paddingTop:2,
   },
   textInput: {
-    marginRight:16,
+    marginRight:10,
+    paddingRight:6,
     marginLeft:16,
     fontSize: 15,
     lineHeight:20,
@@ -111,7 +112,6 @@ export default class Composer extends React.Component<ComposerProps> {
   }
 
   render() {
- 
     return (
       <View style={[styles.textInputContainer,this.props.composerHeight > 34 ?{marginBottom:3,marginTop:3}:{marginTop:1,marginBottom:1}]}>
         <TextInput

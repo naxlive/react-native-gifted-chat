@@ -17,7 +17,7 @@ import Color from './Color'
 const styles = StyleSheet.create({
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: Color.defaultColor,
+    borderTopColor: "rgba(0,0,0,0.2)",
     bottom:0,
     left: 0,
     right: 0,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     backgroundColor: '#fff',
     paddingBottom:4,
-    paddingTop:3
+    paddingTop:3.5
   },
   accessory: {
     height: 44,
