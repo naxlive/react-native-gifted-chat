@@ -17,12 +17,12 @@ import Color from './Color'
 const styles = StyleSheet.create({
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: "rgba(0,0,0,0.2)",
-    bottom:0,
+    borderTopColor: Color.defaultColor,
+    bottom: 0,
     left: 0,
     right: 0,
-    marginTop:-8,
-    marginBottom:2
+    marginTop:8,
+    marginBottom:4
   },
   primary: {
     flexDirection: 'row',
@@ -30,8 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 0,
     backgroundColor: '#fff',
-    paddingBottom:4,
-    paddingTop:3.5
+    paddingBottom:4
   },
   accessory: {
     height: 44,
@@ -41,8 +40,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
-
-
 
 export interface InputToolbarProps {
   options?: { [key: string]: any }

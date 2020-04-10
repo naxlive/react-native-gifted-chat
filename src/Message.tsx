@@ -17,7 +17,7 @@ const styles = {
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
       marginLeft: 8,
-      marginRight: 8,
+      marginRight: 0,
     },
   }),
   right: StyleSheet.create({
@@ -25,7 +25,7 @@ const styles = {
       flexDirection: 'row',
       alignItems: 'flex-start',
       justifyContent: 'flex-end',
-      marginLeft: 8,
+      marginLeft: 0,
       marginRight: 8,
     },
   }),

@@ -95,7 +95,7 @@ const styles = {
       // backgroundColor: '#8CDB66',
       marginLeft: 60,
       minHeight: 20,
-      marginRight: 6,
+      marginRight: 2,
       marginBottom: 4,
       justifyContent: 'flex-end',
     },
