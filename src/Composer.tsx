@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     paddingBottom:4,
     paddingTop:4,
     marginTop:4,
+
   },
   textInput: {
     marginRight:16,

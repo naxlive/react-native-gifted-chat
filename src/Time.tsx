@@ -24,6 +24,7 @@ const styles = {
   left: StyleSheet.create({
     container: {
       flexDirection:"column",
+  
       ...containerStyle,
     },
     text: {

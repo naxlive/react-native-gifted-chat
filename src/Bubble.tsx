@@ -508,8 +508,6 @@ export default class Bubble<
   renderBubbleContent() {
     return this.props.isCustomViewBottom ? (
       <View>
-        
-       
         {this.renderMessageImage()}
         {this.renderMessageVideo()}
         {this.renderMessageText()}
@@ -561,7 +559,7 @@ export default class Bubble<
                     bottomContainerStyle && bottomContainerStyle[position],
                   ]}
                 >
-                  <View style={{ position: 'absolute', right: -60, top: -24 }}>
+                  <View style={{ position: 'absolute', right: -46, top: -24 }}>
                     {this.renderUsername()}
                     {this.renderTime()}
                     {this.renderTicks()}
@@ -646,7 +644,7 @@ export default class Bubble<
                     bottomContainerStyle && bottomContainerStyle[position],
                   ]}
                 >
-                  <View>
+                  <View style={{ position: 'absolute', left: -54, top: -24 }}>
                     {this.renderUsername()}
                     {this.renderTime()}
                     {this.renderTicks()}
@@ -655,8 +653,6 @@ export default class Bubble<
               </View>
             </TouchableWithoutFeedback>
           </View>
-
-          {/* {this.renderQuickReplies()} */}
         </View>
       )
     } else {

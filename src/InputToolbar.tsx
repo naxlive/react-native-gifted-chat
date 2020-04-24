@@ -22,15 +22,15 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     marginTop:8,
-    marginBottom:4
+    marginBottom:-7
   },
   primary: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     paddingVertical: 0,
     backgroundColor: '#fff',
-    paddingBottom:4
+    paddingBottom:24
   },
   accessory: {
     height: 44,
