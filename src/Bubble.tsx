@@ -6,10 +6,10 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  
   StyleProp,
   ViewStyle,
   TextStyle,
-  Dimensions,
 } from 'react-native'
 
 import QuickReplies from './QuickReplies'
@@ -39,21 +39,10 @@ const styles = {
     },
     wrapper: {
       borderRadius: 15,
-      backgroundColor: '#fff',
+      backgroundColor: Color.leftBubbleBackground,
       marginRight: 60,
       minHeight: 20,
       justifyContent: 'flex-end',
-      marginBottom: 4,
-    },
-    wrapperWelcomeImage: {
-      borderRadius: 15,
-      backgroundColor: 'transparent',
-      minHeight: 20,
-      padding: 3,
-      marginLeft: -40,
-      marginBottom: 4,
-      justifyContent: 'flex-end',
-      width: Dimensions.get('window').width - 24,
     },
     containerToNext: {
       borderBottomLeftRadius: 3,
@@ -65,25 +54,6 @@ const styles = {
       flexDirection: 'row',
       justifyContent: 'flex-start',
     },
-    talkBubble: {
-      backgroundColor: 'transparent',
-    },
-    talkBubbleSquare: {
-      borderRadius: 10,
-    },
-    talkBubbleTriangle: {
-      position: 'absolute',
-      left: -12,
-      top: 4,
-      width: 0,
-      height: 0,
-      borderTopColor: 'transparent',
-      borderTopWidth: 4,
-      borderRightWidth: 26,
-      borderRightColor: '#fff',
-      borderBottomWidth: 13,
-      borderBottomColor: 'transparent',
-    },
   }),
   right: StyleSheet.create({
     container: {
@@ -92,42 +62,20 @@ const styles = {
     },
     wrapper: {
       borderRadius: 15,
-      // backgroundColor: '#8CDB66',
+      backgroundColor: Color.defaultBlue,
       marginLeft: 60,
       minHeight: 20,
-      marginRight: 2,
-      marginBottom: 4,
       justifyContent: 'flex-end',
     },
     containerToNext: {
-      borderBottomRightRadius: 16,
+      borderBottomRightRadius: 3,
     },
     containerToPrevious: {
-      borderTopRightRadius: 20,
-      // borderTopWidth:20
+      borderTopRightRadius: 3,
     },
     bottom: {
       flexDirection: 'row',
       justifyContent: 'flex-end',
-    },
-    talkBubble: {
-      backgroundColor: 'transparent',
-    },
-    talkBubbleSquare: {
-      borderRadius: 10,
-    },
-    talkBubbleTriangle: {
-      position: 'absolute',
-      right: -10,
-      top: 6,
-      width: 0,
-      height: 0,
-      borderTopColor: 'transparent',
-      borderTopWidth: 4,
-      borderLeftWidth: 26,
-      borderLeftColor: '#8CDB66',
-      borderBottomWidth: 13,
-      borderBottomColor: 'transparent',
     },
   }),
   content: StyleSheet.create({
@@ -265,26 +213,26 @@ export default class Bubble<
     nextMessage: PropTypes.object,
     previousMessage: PropTypes.object,
     containerStyle: PropTypes.shape({
-      left: PropTypes.any,
-      right: PropTypes.any,
+      left: {},
+      right: {},
     }),
     wrapperStyle: PropTypes.shape({
-      left: PropTypes.any,
-      right: PropTypes.any,
+      left: {},
+      right: {},
     }),
     bottomContainerStyle: PropTypes.shape({
-      left: PropTypes.any,
-      right: PropTypes.any,
+      left: {},
+      right: {},
     }),
     tickStyle: PropTypes.any,
     usernameStyle: PropTypes.any,
     containerToNextStyle: PropTypes.shape({
-      left: PropTypes.any,
-      right: PropTypes.any,
+      left: {},
+      right: {},
     }),
     containerToPreviousStyle: PropTypes.shape({
-      left: PropTypes.any,
-      right: PropTypes.any,
+      left: {},
+      right: {},
     }),
   }
 
@@ -522,180 +470,51 @@ export default class Bubble<
       </View>
     )
   }
+
   render() {
     const {
       position,
       containerStyle,
       wrapperStyle,
       bottomContainerStyle,
-      currentMessage,
     } = this.props
-    if (currentMessage.messageType == 'welcome_text' && position === 'left') {
-      return (
+    return (
+      <View
+        style={[
+          styles[position].container,
+          containerStyle && containerStyle[position],
+        ]}
+      >
         <View
           style={[
-            styles[position].container,
-            containerStyle && containerStyle[position],
+            styles[position].wrapper,
+             this.styledBubbleToNext(),
+            this.styledBubbleToPrevious(),
+            wrapperStyle && wrapperStyle[position],
           ]}
         >
-          <View
-            style={[
-              styles[position].wrapper,
-              this.styledBubbleToNext(),
-              this.styledBubbleToPrevious(),
-              wrapperStyle && wrapperStyle[position],
-            ]}
+          <TouchableWithoutFeedback
+            onLongPress={this.onLongPress}
+            accessibilityTraits='text'
+            {...this.props.touchableProps}
           >
-            <TouchableWithoutFeedback
-              onLongPress={this.onLongPress}
-              accessibilityTraits='text'
-              {...this.props.touchableProps}
-            >
-              <View>
-                {this.renderBubbleContent()}
-                <View
-                  style={[
-                    styles[position].bottom,
-                    bottomContainerStyle && bottomContainerStyle[position],
-                  ]}
-                >
-                  <View style={{ position: 'absolute', right: -46, top: -24 }}>
-                    {this.renderUsername()}
-                    {this.renderTime()}
-                    {this.renderTicks()}
-                  </View>
-                </View>
+            <View>
+              {this.renderBubbleContent()}
+              <View
+                style={[
+                  styles[position].bottom,
+                  bottomContainerStyle && bottomContainerStyle[position],
+                ]}
+              >
+                {this.renderUsername()}
+                {this.renderTime()}
+                {this.renderTicks()}
               </View>
-            </TouchableWithoutFeedback>
-          </View>
-          {this.renderQuickReplies()}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      )
-    } else if (
-      currentMessage.messageType == 'welcome_image' &&
-      position == 'left'
-    ) {
-      return (
-        <View
-          style={[
-            styles[position].container,
-            containerStyle && containerStyle[position],
-          ]}
-        >
-          <View
-            style={[
-              styles[position].wrapperWelcomeImage,
-              this.styledBubbleToNext(),
-              this.styledBubbleToPrevious(),
-              wrapperStyle && wrapperStyle[position],
-            ]}
-          >
-            <TouchableWithoutFeedback
-              onLongPress={this.onLongPress}
-              accessibilityTraits='text'
-              {...this.props.touchableProps}
-            >
-              <View>
-                {this.renderBubbleContent()}
-                <View
-                  style={[
-                    styles[position].bottom,
-                    bottomContainerStyle && bottomContainerStyle[position],
-                  ]}
-                >
-                  <View style={{ position: 'absolute', right: -4, top: 6 }}>
-                    {this.renderUsername()}
-                    {this.renderTime()}
-                    {this.renderTicks()}
-                  </View>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-          {/* {this.renderQuickReplies()} */}
-        </View>
-      )
-    } else if (currentMessage.messageType == 'text' && position == 'right') {
-      return (
-        <View
-          style={[
-            styles[position].container,
-            containerStyle && containerStyle[position],
-          ]}
-        >
-          <View
-            style={[
-              styles[position].wrapper,
-              this.styledBubbleToNext(),
-              this.styledBubbleToPrevious(),
-              wrapperStyle && wrapperStyle[position],
-            ]}
-          >
-            <TouchableWithoutFeedback
-              onLongPress={this.onLongPress}
-              accessibilityTraits='text'
-              {...this.props.touchableProps}
-            >
-              <View>
-                {this.renderBubbleContent()}
-                <View
-                  style={[
-                    styles[position].bottom,
-                    bottomContainerStyle && bottomContainerStyle[position],
-                  ]}
-                >
-                  <View style={{ position: 'absolute', left: -54, top: -24 }}>
-                    {this.renderUsername()}
-                    {this.renderTime()}
-                    {this.renderTicks()}
-                  </View>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </View>
-      )
-    } else {
-      return (
-        <View
-          style={[
-            styles[position].container,
-            containerStyle && containerStyle[position],
-          ]}
-        >
-          <View
-            style={[
-              styles[position].wrapper,
-              this.styledBubbleToNext(),
-              this.styledBubbleToPrevious(),
-              wrapperStyle && wrapperStyle[position],
-            ]}
-          >
-            <TouchableWithoutFeedback
-              onLongPress={this.onLongPress}
-              accessibilityTraits='text'
-              {...this.props.touchableProps}
-            >
-              <View>
-                {this.renderBubbleContent()}
-                <View
-                  style={[
-                    styles[position].bottom,
-                    bottomContainerStyle && bottomContainerStyle[position],
-                  ]}
-                >
-                  <View style={{ position: 'absolute', left: -54, top: -24 }}>
-                    {this.renderUsername()}
-                    {this.renderTime()}
-                    {this.renderTicks()}
-                  </View>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-          {/* {this.renderQuickReplies()} */}
-        </View>
-      )
-    }
+        {this.renderQuickReplies()}
+      </View>
+    )
   }
 }

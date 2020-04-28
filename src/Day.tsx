@@ -23,24 +23,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 5,
     marginBottom: 10,
-    
   },
   text: {
     backgroundColor: Color.backgroundTransparent,
-    color: "#fff",
-    fontSize: 9,
+    color: Color.defaultColor,
+    fontSize: 12,
     fontWeight: '600',
   },
-  wrapperStyle:{
-    backgroundColor:"#B6BEC9",
-    height:24,
-    minWidth:60,
-    paddingHorizontal:8,
-    flexDirection:"column",
-    alignItems:"center",
-    justifyContent:"center",
-    borderRadius:10
-  }
 })
 
 export interface DayProps<TMessage extends IMessage> {
@@ -85,7 +74,6 @@ export default class Day<
     dateFormat: PropTypes.string,
   }
   render() {
-   
     const {
       dateFormat,
       currentMessage,
@@ -94,15 +82,15 @@ export default class Day<
       wrapperStyle,
       textStyle,
     } = this.props
+
     if (currentMessage && !isSameDay(currentMessage, previousMessage!)) {
       return (
         <View style={[styles.container, containerStyle]}>
-          <View style={[wrapperStyle,styles.wrapperStyle]}>
+          <View style={wrapperStyle}>
             <Text style={[styles.text, textStyle]}>
-            {moment(currentMessage.createdAt)
+              {moment(currentMessage.createdAt)
                 .locale(this.context.getLocale())
                 .format(dateFormat)}
-              {/* {moment(currentMessage.createdAt, "HH:mm DD-MM-YYYY").format("ll")} */}
             </Text>
           </View>
         </View>

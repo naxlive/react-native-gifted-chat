@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   Keyboard,
+  
   EmitterSubscription,
   StyleProp,
   ViewStyle,
@@ -18,26 +19,17 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Color.defaultColor,
+    backgroundColor: Color.white,
     bottom: 0,
     left: 0,
     right: 0,
-    marginTop:8,
-    marginBottom:-7
   },
   primary: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    paddingVertical: 0,
-    backgroundColor: '#fff',
-    paddingBottom:24
+    alignItems: 'flex-end',
   },
   accessory: {
     height: 44,
-    flex: 0.25,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 })
 
@@ -56,7 +48,7 @@ export interface InputToolbarProps {
 
 export default class InputToolbar extends React.Component<
   InputToolbarProps,
-  { position: string; bottom: number | string }
+  { position: string }
 > {
   static defaultProps = {
     renderAccessory: null,
@@ -82,7 +74,6 @@ export default class InputToolbar extends React.Component<
 
   state = {
     position: 'absolute',
-    bottom: 0,
   }
 
   keyboardWillShowListener?: EmitterSubscription = undefined
@@ -112,7 +103,6 @@ export default class InputToolbar extends React.Component<
     if (this.state.position !== 'relative') {
       this.setState({
         position: 'relative',
-        bottom: -34,
       })
     }
   }
@@ -121,7 +111,6 @@ export default class InputToolbar extends React.Component<
     if (this.state.position !== 'absolute') {
       this.setState({
         position: 'absolute',
-        bottom: 0,
       })
     }
   }
@@ -174,11 +163,11 @@ export default class InputToolbar extends React.Component<
         }
       >
         <View style={[styles.primary, this.props.primaryStyle]}>
-          {this.renderAccessory()}
           {this.renderActions()}
           {this.renderComposer()}
           {this.renderSend()}
         </View>
+        {this.renderAccessory()}
       </View>
     )
   }

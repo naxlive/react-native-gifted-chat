@@ -1,27 +1,15 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Platform, StyleSheet, TextInput, TextInputProps, View } from 'react-native'
+import { Platform, StyleSheet, TextInput, TextInputProps } from 'react-native'
 import { MIN_COMPOSER_HEIGHT, DEFAULT_PLACEHOLDER } from './Constant'
 import Color from './Color'
 
 const styles = StyleSheet.create({
-  textInputContainer :{
-    backgroundColor: "#f0f0f0",
-    borderRadius: 22,
-    borderWidth: 0.5,
-    borderColor: "rgba(0,0,0,0.05)",
-    flex: 0.85,
-    paddingBottom:4,
-    paddingTop:4,
-    marginTop:4,
-
-  },
   textInput: {
-    marginRight:16,
-    marginLeft:16,
-    fontSize: 15,
-    lineHeight:20,
-    textAlignVertical:"center",
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 16,
+    lineHeight: 16,
     ...Platform.select({
       web: {
         paddingTop: 6,
@@ -29,12 +17,12 @@ const styles = StyleSheet.create({
       },
     }),
     marginTop: Platform.select({
-      ios: 0,
+      ios: 6,
       android: 0,
       web: 6,
     }),
     marginBottom: Platform.select({
-      ios: 0,
+      ios: 5,
       android: 3,
       web: 4,
     }),
@@ -114,41 +102,38 @@ export default class Composer extends React.Component<ComposerProps> {
 
   render() {
     return (
-      <View style={styles.textInputContainer}>
-        <TextInput
-              testID={this.props.placeholder}
-              accessible
-              accessibilityLabel={this.props.placeholder}
-              placeholder={this.props.placeholder}
-              placeholderTextColor={this.props.placeholderTextColor}
-              multiline={this.props.multiline}
-              editable={!(this.props.disableComposer)}
-              onChange={this.onContentSizeChange}
-              onContentSizeChange={this.onContentSizeChange}
-              onChangeText={this.onChangeText}
-              style={[
-                styles.textInput,
-                this.props.textInputStyle,
-                {
-                  height: this.props.composerHeight,
-                  ...Platform.select({
-                    web: {
-                      outlineWidth: 0,
-                      outlineColor: 'transparent',
-                      outlineOffset: 0,
-                    },
-                  }),
-                },
-              ]}
-              autoFocus={this.props.textInputAutoFocus}
-              value={this.props.text}
-              enablesReturnKeyAutomatically
-              underlineColorAndroid='transparent'
-              keyboardAppearance={this.props.keyboardAppearance}
-              {...this.props.textInputProps}
-            />
-      </View>
-   
+      <TextInput
+        testID={this.props.placeholder}
+        accessible
+        accessibilityLabel={this.props.placeholder}
+        placeholder={this.props.placeholder}
+        placeholderTextColor={this.props.placeholderTextColor}
+        multiline={this.props.multiline}
+        editable={!(this.props.disableComposer)}
+        onChange={this.onContentSizeChange}
+        onContentSizeChange={this.onContentSizeChange}
+        onChangeText={this.onChangeText}
+        style={[
+          styles.textInput,
+          this.props.textInputStyle,
+          {
+            height: this.props.composerHeight,
+            ...Platform.select({
+              web: {
+                outlineWidth: 0,
+                outlineColor: 'transparent',
+                outlineOffset: 0,
+              },
+            }),
+          },
+        ]}
+        autoFocus={this.props.textInputAutoFocus}
+        value={this.props.text}
+        enablesReturnKeyAutomatically
+        underlineColorAndroid='transparent'
+        keyboardAppearance={this.props.keyboardAppearance}
+        {...this.props.textInputProps}
+      />
     )
   }
 }

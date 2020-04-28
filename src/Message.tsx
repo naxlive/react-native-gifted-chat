@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { View, StyleSheet, ViewStyle } from 'react-native'
+import { View,  StyleSheet, ViewStyle } from 'react-native'
 
 import Avatar from './Avatar'
 import Bubble from './Bubble'
@@ -14,7 +14,7 @@ const styles = {
   left: StyleSheet.create({
     container: {
       flexDirection: 'row',
-      alignItems: 'flex-start',
+      alignItems: 'flex-end',
       justifyContent: 'flex-start',
       marginLeft: 8,
       marginRight: 0,
@@ -23,7 +23,7 @@ const styles = {
   right: StyleSheet.create({
     container: {
       flexDirection: 'row',
-      alignItems: 'flex-start',
+      alignItems: 'flex-end',
       justifyContent: 'flex-end',
       marginLeft: 0,
       marginRight: 8,
@@ -83,8 +83,8 @@ export default class Message<
     user: PropTypes.object,
     inverted: PropTypes.bool,
     containerStyle: PropTypes.shape({
-      left: PropTypes.any,
-      right: PropTypes.any,
+      left: {},
+      right: {},
     }),
     shouldUpdateMessage: PropTypes.func,
   }
@@ -158,11 +158,7 @@ export default class Message<
       return null
     }
 
-    if (
-      currentMessage &&
-      currentMessage.user &&
-      currentMessage.user.avatar === null
-    ) {
+    if (currentMessage && currentMessage.user && currentMessage.user.avatar === null) {
       return null
     }
 
