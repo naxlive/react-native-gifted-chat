@@ -20,7 +20,7 @@ import {
 } from '@expo/react-native-action-sheet'
 import moment from 'moment'
 import uuid from 'uuid'
-import { isIphoneX ,getBottomSpace} from 'react-native-iphone-x-helper'
+import { isIphoneX, getBottomSpace } from 'react-native-iphone-x-helper'
 
 import * as utils from './utils'
 import Actions from './Actions'
@@ -605,21 +605,24 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       this.setBottomOffset(this.safeAreaIphoneX(this.props.bottomOffset!))
       const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard()
       this.setState({
-        messagesContainerHeight: isIphoneX()?newMessagesContainerHeight + 85: newMessagesContainerHeight + 109,
+        messagesContainerHeight: isIphoneX()
+          ? newMessagesContainerHeight + 85
+          : newMessagesContainerHeight + 109,
         bottomOffset: 0,
       })
     }
   }
 
   onKeyboardWillHide = (_e: any) => {
-   const offsetKeyboardHide = 34
+    const offsetKeyboardHide = 34
     if (this.props.isKeyboardInternallyHandled) {
       this.setIsTypingDisabled(true)
       this.setKeyboardHeight(0)
       this.setBottomOffset(0)
       const newMessagesContainerHeight = this.getBasicMessagesContainerHeight()
       this.setState({
-        messagesContainerHeight: (newMessagesContainerHeight + 72) - offsetKeyboardHide,
+        messagesContainerHeight:
+          newMessagesContainerHeight + 72 - offsetKeyboardHide,
         bottomOffset: this.state.bottomOffset,
       })
     }
@@ -655,7 +658,9 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
 
   renderMessages() {
     var heightContainer
-    const height = isIphoneX()? Dimensions.get('window').height - 202 : Dimensions.get('window').height - 178
+    const height = isIphoneX()
+      ? Dimensions.get('window').height - 206
+      : Dimensions.get('window').height - 182
     if (height < this.state.messagesContainerHeight) {
       heightContainer = height
     } else {
@@ -751,7 +756,9 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     )
     this.setState({
       composerHeight: newComposerHeight,
-      messagesContainerHeight: isIphoneX()?newMessagesContainerHeight + 85: newMessagesContainerHeight + 109,
+      messagesContainerHeight: isIphoneX()
+        ? newMessagesContainerHeight + 85
+        : newMessagesContainerHeight + 109,
     })
   }
 
