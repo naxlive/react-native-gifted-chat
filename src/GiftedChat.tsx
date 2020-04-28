@@ -11,6 +11,7 @@ import {
   FlatList,
   TextStyle,
   KeyboardAvoidingView,
+  Dimensions,
 } from 'react-native'
 
 import {
@@ -19,7 +20,7 @@ import {
 } from '@expo/react-native-action-sheet'
 import moment from 'moment'
 import uuid from 'uuid'
-import { isIphoneX, getBottomSpace } from 'react-native-iphone-x-helper';
+import { isIphoneX ,getBottomSpace} from 'react-native-iphone-x-helper'
 
 import * as utils from './utils'
 import Actions from './Actions'
@@ -160,7 +161,9 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
   /*Custom message container */
   renderMessage?(message: Message<TMessage>['props']): React.ReactNode
   /* Custom message text */
-  renderMessageText?(messageText: MessageText<TMessage>['props']): React.ReactNode
+  renderMessageText?(
+    messageText: MessageText<TMessage>['props'],
+  ): React.ReactNode
   /* Custom message image */
   renderMessageImage?(props: MessageImage<TMessage>['props']): React.ReactNode
   /* Custom view inside the bubble */
@@ -209,6 +212,7 @@ export interface GiftedChatState<TMessage extends IMessage = IMessage> {
   typingDisabled: boolean
   text?: string
   messages?: TMessage[]
+  bottomOffset: number
 }
 
 class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
@@ -394,10 +398,11 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   state = {
     isInitialized: false, // initialization will calculate maxHeight before rendering the chat
     composerHeight: this.props.minComposerHeight,
-    messagesContainerHeight: undefined,
+    messagesContainerHeight: Dimensions.get('window').height,
     typingDisabled: false,
     text: undefined,
     messages: undefined,
+    bottomOffset: 40,
   }
 
   constructor(props: GiftedChatProps<TMessage>) {
@@ -584,8 +589,11 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     )
   }
 
-  safeAreaSupport = (bottomOffset: number) => {
-    return bottomOffset === this._bottomOffset ? getBottomSpace() : bottomOffset
+  safeAreaIphoneX = (bottomOffset: number) => {
+    if (isIphoneX()) {
+      return bottomOffset === this._bottomOffset ? 34 : bottomOffset
+    }
+    return bottomOffset
   }
 
   onKeyboardWillShow = (e: any) => {
@@ -594,22 +602,25 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
       this.setKeyboardHeight(
         e.endCoordinates ? e.endCoordinates.height : e.end.height,
       )
-      this.setBottomOffset(this.safeAreaSupport(this.props.bottomOffset!))
+      this.setBottomOffset(this.safeAreaIphoneX(this.props.bottomOffset!))
       const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard()
       this.setState({
-        messagesContainerHeight: newMessagesContainerHeight,
+        messagesContainerHeight: isIphoneX()?newMessagesContainerHeight + 85: newMessagesContainerHeight + 109,
+        bottomOffset: 0,
       })
     }
   }
 
   onKeyboardWillHide = (_e: any) => {
+   const offsetKeyboardHide = 34
     if (this.props.isKeyboardInternallyHandled) {
       this.setIsTypingDisabled(true)
       this.setKeyboardHeight(0)
       this.setBottomOffset(0)
       const newMessagesContainerHeight = this.getBasicMessagesContainerHeight()
       this.setState({
-        messagesContainerHeight: newMessagesContainerHeight,
+        messagesContainerHeight: (newMessagesContainerHeight + 72) - offsetKeyboardHide,
+        bottomOffset: this.state.bottomOffset,
       })
     }
   }
@@ -643,12 +654,19 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   renderMessages() {
+    var heightContainer
+    const height = isIphoneX()? Dimensions.get('window').height - 202 : Dimensions.get('window').height - 178
+    if (height < this.state.messagesContainerHeight) {
+      heightContainer = height
+    } else {
+      heightContainer = this.state.messagesContainerHeight
+    }
     const { messagesContainerStyle, ...messagesContainerProps } = this.props
     const fragment = (
       <View
         style={[
           {
-            height: this.state.messagesContainerHeight,
+            height: heightContainer,
           },
           messagesContainerStyle,
         ]}
@@ -733,7 +751,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     )
     this.setState({
       composerHeight: newComposerHeight,
-      messagesContainerHeight: newMessagesContainerHeight,
+      messagesContainerHeight: isIphoneX()?newMessagesContainerHeight + 85: newMessagesContainerHeight + 109,
     })
   }
 
@@ -785,7 +803,7 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     ) {
       this.setMaxHeight(layout.height)
       this.setState({
-        messagesContainerHeight: this.getBasicMessagesContainerHeight(),
+        messagesContainerHeight: this.getMessagesContainerHeightWithKeyboard(),
       })
     }
     if (this.getIsFirstLayout() === true) {

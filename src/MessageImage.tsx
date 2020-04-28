@@ -4,11 +4,11 @@ import {
   Image,
   StyleSheet,
   View,
-  
   ImageProps,
   ViewStyle,
   StyleProp,
   ImageStyle,
+  Dimensions,
 } from 'react-native'
 // TODO: support web
 // @ts-ignore
@@ -18,15 +18,22 @@ import { IMessage } from './types'
 const styles = StyleSheet.create({
   container: {},
   image: {
-    width: 150,
-    height: 100,
-    borderRadius: 13,
-    margin: 3,
+    borderRadius: 12,
+    margin: 0,
+    resizeMode: 'cover',
+
+  },
+  welcomeImage :{
+    width:"100%",
+    height:Dimensions.get("window").width/1.5,
+    borderRadius: 12,
     resizeMode: 'cover',
   },
+ 
   imageActive: {
     flex: 1,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
+
   },
 })
 
@@ -41,6 +48,10 @@ export interface MessageImageProps<TMessage extends IMessage> {
 export default class MessageImage<
   TMessage extends IMessage = IMessage
 > extends Component<MessageImageProps<TMessage>> {
+  state ={
+    width:240,
+    height:160
+  }
   static defaultProps = {
     currentMessage: {
       image: null,
@@ -58,6 +69,7 @@ export default class MessageImage<
     imageProps: PropTypes.object,
     lightboxProps: PropTypes.object,
   }
+
   render() {
     const {
       containerStyle,
@@ -67,22 +79,49 @@ export default class MessageImage<
       currentMessage,
     } = this.props
     if (!!currentMessage) {
-      return (
-        <View style={[styles.container, containerStyle]}>
-          <Lightbox
-            activeProps={{
-              style: styles.imageActive,
-            }}
-            {...lightboxProps}
-          >
-            <Image
-              {...imageProps}
-              style={[styles.image, imageStyle]}
-              source={{ uri: currentMessage.image }}
-            />
-          </Lightbox>
-        </View>
-      )
+   
+      if(currentMessage.messageType == "welcome_image"){
+        return (
+          <View style={[styles.container, containerStyle]}>
+            <Lightbox
+              activeProps={{
+                style: styles.imageActive,
+              }}
+              {...lightboxProps}
+            >
+              <Image
+                {...imageProps}
+                style={[styles.welcomeImage, imageStyle]}
+                source={{ uri: currentMessage.image }}
+
+              />
+            </Lightbox>
+          </View>
+        )
+      }else{
+      
+        return (
+          <View style={[styles.container, containerStyle]}>
+            <Lightbox
+              activeProps={{
+                style: styles.imageActive,
+              }}
+              {...lightboxProps}
+            >
+              <Image
+                {...imageProps}
+                style={[styles.image, imageStyle,{width:this.state.width<this.state.height?160:240,height:this.state.height>this.state.width?240:160}]}
+                onLoad={(value) => {
+                  const { height, width } = value.nativeEvent.source;
+                  this.setState({ width: width, height: height });
+                }}
+                source={{ uri: currentMessage.image }}
+              />
+            </Lightbox>
+          </View>
+        )
+      }
+      
     }
     return null
   }

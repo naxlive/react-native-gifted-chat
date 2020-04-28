@@ -15,8 +15,10 @@ import Color from './Color'
 
 const styles = StyleSheet.create({
   container: {
-    height: 44,
-    justifyContent: 'flex-end',
+    height: 50,
+    justifyContent: 'center',
+    marginRight:14,
+    marginLeft:14,
   },
   text: {
     color: Color.defaultBlue,

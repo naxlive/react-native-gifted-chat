@@ -1,13 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
-import {
-  StyleSheet,
-  Text,
-  View,
-  
-  ViewStyle,
-  TextStyle,
-} from 'react-native'
+import { StyleSheet, Text, View, ViewStyle, TextStyle } from 'react-native'
 
 import moment from 'moment'
 
@@ -16,20 +9,22 @@ import { TIME_FORMAT } from './Constant'
 import { LeftRightStyle, IMessage } from './types'
 
 const containerStyle = {
-  marginLeft: 10,
+  marginLeft: 18,
   marginRight: 10,
   marginBottom: 5,
 }
 
 const textStyle = {
-  fontSize: 10,
+  fontSize: 9,
   backgroundColor: 'transparent',
-  textAlign: 'right',
+  textAlign: 'left',
 }
 
 const styles = {
   left: StyleSheet.create({
     container: {
+      flexDirection:"column",
+  
       ...containerStyle,
     },
     text: {
@@ -39,10 +34,13 @@ const styles = {
   }),
   right: StyleSheet.create({
     container: {
+      flexDirection:"column",
+      justifyContent:"flex-end",
+      alignItems:"flex-end",
       ...containerStyle,
     },
     text: {
-      color: Color.white,
+      color:"#6F7783",
       ...textStyle,
     },
   }),
@@ -77,8 +75,8 @@ export default class Time<
     position: PropTypes.oneOf(['left', 'right']),
     currentMessage: PropTypes.object,
     containerStyle: PropTypes.shape({
-      left: {},
-      right: {},
+      left: PropTypes.any,
+      right: PropTypes.any,
     }),
     timeFormat: PropTypes.string,
     timeTextStyle: PropTypes.shape({
@@ -104,6 +102,16 @@ export default class Time<
             containerStyle && containerStyle[position],
           ]}
         >
+           {position == "right" &&      <Text
+           style={
+            [
+              styles[position].text,
+              timeTextStyle && timeTextStyle[position],
+            ] as TextStyle
+          }
+         
+          >อ่านแล้ว</Text>}
+     
           <Text
             style={
               [
@@ -112,9 +120,7 @@ export default class Time<
               ] as TextStyle
             }
           >
-            {moment(currentMessage.createdAt)
-              .locale(this.context.getLocale())
-              .format(timeFormat)}
+            {moment(currentMessage.createdAt, "YYYY-MM-DD HH:mm:ss").format("HH:mm")}
           </Text>
         </View>
       )

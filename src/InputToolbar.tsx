@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   Keyboard,
-  
   EmitterSubscription,
   StyleProp,
   ViewStyle,
@@ -19,17 +18,27 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: Color.defaultColor,
-    backgroundColor: Color.white,
     bottom: 0,
     left: 0,
     right: 0,
+    marginTop:8,
+    marginBottom:-7
   },
   primary: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingVertical: 0,
+    backgroundColor: '#fff',
+    paddingBottom:24,
+    paddingTop:2,
   },
   accessory: {
     height: 44,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex:0.35
   },
 })
 
@@ -48,7 +57,7 @@ export interface InputToolbarProps {
 
 export default class InputToolbar extends React.Component<
   InputToolbarProps,
-  { position: string }
+  { position: string; bottom: number | string }
 > {
   static defaultProps = {
     renderAccessory: null,
@@ -74,6 +83,7 @@ export default class InputToolbar extends React.Component<
 
   state = {
     position: 'absolute',
+    bottom: 0,
   }
 
   keyboardWillShowListener?: EmitterSubscription = undefined
@@ -103,6 +113,7 @@ export default class InputToolbar extends React.Component<
     if (this.state.position !== 'relative') {
       this.setState({
         position: 'relative',
+        bottom: -34,
       })
     }
   }
@@ -111,6 +122,7 @@ export default class InputToolbar extends React.Component<
     if (this.state.position !== 'absolute') {
       this.setState({
         position: 'absolute',
+        bottom: 0,
       })
     }
   }
@@ -163,11 +175,11 @@ export default class InputToolbar extends React.Component<
         }
       >
         <View style={[styles.primary, this.props.primaryStyle]}>
+          {this.renderAccessory()}
           {this.renderActions()}
           {this.renderComposer()}
           {this.renderSend()}
         </View>
-        {this.renderAccessory()}
       </View>
     )
   }

@@ -4,7 +4,6 @@ import {
   Linking,
   StyleSheet,
   View,
-  
   TextProps,
   StyleProp,
   ViewStyle,
@@ -24,12 +23,15 @@ const textStyle = {
   marginTop: 5,
   marginBottom: 5,
   marginLeft: 10,
-  marginRight: 10,
+  marginRight: 15,
 }
 
 const styles = {
   left: StyleSheet.create({
-    container: {},
+    container: {
+      borderRadius: 15,
+      backgroundColor:"#fff"
+    },
     text: {
       color: 'black',
       ...textStyle,
@@ -37,17 +39,58 @@ const styles = {
     link: {
       color: 'black',
       textDecorationLine: 'underline',
+    },
+    talkBubble: {
+      backgroundColor: 'transparent',
+    },
+    talkBubbleSquare: {
+      borderRadius: 15,
+    },
+    talkBubbleTriangle: {
+      position: 'absolute',
+      left: -12,
+      top: 4,
+      width: 0,
+      height: 0,
+      borderTopColor: 'transparent',
+      borderTopWidth: 4,
+      borderRightWidth: 26,
+      borderRightColor: '#fff',
+      borderBottomWidth: 13,
+      borderBottomColor: 'transparent',
     },
   }),
   right: StyleSheet.create({
-    container: {},
+    container: {
+      backgroundColor:"#8CDB66",
+      borderRadius: 15,
+    },
     text: {
-      color: 'white',
+      // color: '#fff',
       ...textStyle,
     },
     link: {
       color: 'white',
       textDecorationLine: 'underline',
+    },
+    talkBubble: {
+      backgroundColor: 'transparent',
+    },
+    talkBubbleSquare: {
+      borderRadius: 10,
+    },
+    talkBubbleTriangle: {
+      position: 'absolute',
+      right: -10,
+      top: 6,
+      width: 0,
+      height: 0,
+      borderTopColor: 'transparent',
+      borderTopWidth: 4,
+      borderLeftWidth: 26,
+      borderLeftColor: '#8CDB66',
+      borderBottomWidth: 13,
+      borderBottomColor: 'transparent',
     },
   }),
 }
@@ -92,8 +135,8 @@ export default class MessageText<
     optionTitles: PropTypes.arrayOf(PropTypes.string),
     currentMessage: PropTypes.object,
     containerStyle: PropTypes.shape({
-      left: {},
-      right: {},
+      left: PropTypes.any,
+      right: PropTypes.any,
     }),
     textStyle: PropTypes.shape({
       left: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
@@ -175,6 +218,10 @@ export default class MessageText<
             this.props.containerStyle[this.props.position],
         ]}
       >
+         <View style={styles[this.props.position].talkBubble}>
+          <View style={styles[this.props.position].talkBubbleSquare} />
+          <View style={styles[this.props.position].talkBubbleTriangle} />
+        </View>
         <ParsedText
           style={[
             styles[this.props.position].text,
