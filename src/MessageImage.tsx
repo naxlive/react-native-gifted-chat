@@ -9,18 +9,22 @@ import {
   StyleProp,
   ImageStyle,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native'
 // TODO: support web
 // @ts-ignore
 import Lightbox from 'react-native-lightbox'
 import { IMessage } from './types'
+import FastImage from 'react-native-fast-image'
+import { props } from 'ramda'
+import values from 'ramda/es/values'
 
 const styles = StyleSheet.create({
   container: {},
   image: {
     borderRadius: 12,
     margin: 0,
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   },
   welcomeImage: {
     width: '100%',
@@ -49,6 +53,7 @@ export default class MessageImage<
   state = {
     width: 240,
     height: 160,
+    loading:false
   }
   static defaultProps = {
     currentMessage: {
@@ -103,22 +108,35 @@ export default class MessageImage<
               }}
               {...lightboxProps}
             >
-              <Image
-                {...imageProps}
-                style={[
-                  styles.image,
-                  imageStyle,
-                  {
-                    width: this.state.width < this.state.height ? 160 : 240,
-                    height: this.state.height > this.state.width ? 240 : 160,
-                  },
-                ]}
-                onLoad={value => {
-                  const { height, width } = value.nativeEvent.source
-                  this.setState({ width: width, height: height })
-                }}
-                source={{ uri: currentMessage.image }}
-              />
+            <FastImage
+
+            style={[
+              styles.image,
+              imageStyle,
+              {
+                width: this.state.width < this.state.height ? 160 : 240,
+                height: this.state.height > this.state.width ? 240 : 160,
+              },
+            ]}
+            
+            onLoad={value => {
+              const { height, width } = value.nativeEvent
+              this.setState({ width: width, height: height })
+            }}
+            onLoadStart={() => {
+              this.setState({loading:true})
+            }}
+            onLoadEnd={() => {
+              this.setState({loading:false})
+            }}
+              source={{
+                uri:  currentMessage.image,
+                priority: FastImage.priority.high,
+                cache: FastImage.cacheControl.immutable,
+              }}
+          >
+          <ActivityIndicator animating={this.state.loading} style={{ alignSelf: "center", height: "100%" }} />
+        </FastImage>
             </Lightbox>
           </View>
         )
