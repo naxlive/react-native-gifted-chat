@@ -725,13 +725,13 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     }
     this.notifyInputTextReset()
     const newComposerHeight = this.props.minComposerHeight
-    const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard(
-      newComposerHeight,
-    )
+    // const newMessagesContainerHeight = this.getMessagesContainerHeightWithKeyboard(
+    //   newComposerHeight,
+    // )
     this.setState({
       text: this.getTextFromProp(''),
       composerHeight: newComposerHeight,
-      messagesContainerHeight: newMessagesContainerHeight,
+      // messagesContainerHeight: newMessagesContainerHeight,
     })
   }
 
