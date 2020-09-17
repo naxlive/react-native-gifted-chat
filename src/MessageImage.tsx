@@ -114,8 +114,9 @@ export default class MessageImage<
                   styles.image,
                   imageStyle,
                   {
-                    width: this.state.width < this.state.height ? 160 : 240,
+                    width: this.state.width < this.state.height ? 240 :160 ,
                     height: this.state.height > this.state.width ? 240 : 160,
+                  
                   },
                 ]}
                 onLoad={value => {
@@ -133,7 +134,7 @@ export default class MessageImage<
                   priority: FastImage.priority.high,
                   cache: FastImage.cacheControl.immutable,
                 }}
-                resizeMode='contain'
+                
               >
                 <ActivityIndicator
                   animating={this.state.loading}

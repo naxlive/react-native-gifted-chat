@@ -572,10 +572,9 @@ export default class Bubble<
               </View>
             </TouchableWithoutFeedback>
           </View>
-          {/* {this.renderQuickReplies()} */}
         </View>
       )
-    } else if (currentMessage.messageType == 'text' && position == 'right') {
+    } else if ((currentMessage.messageType == 'text' || currentMessage.messageType == 'image') && position == 'right') {
       return (
         <View
           style={[
@@ -644,7 +643,7 @@ export default class Bubble<
                     bottomContainerStyle && bottomContainerStyle[position],
                   ]}
                 >
-                  <View style={{ position: 'absolute', left: -54, top: -24 }}>
+                  <View style={{ position: 'absolute', right: -37, top: -15 }}>
                     {this.renderUsername()}
                     {this.renderTime()}
                     {this.renderTicks()}
@@ -653,7 +652,6 @@ export default class Bubble<
               </View>
             </TouchableWithoutFeedback>
           </View>
-          {/* {this.renderQuickReplies()} */}
         </View>
       )
     }
