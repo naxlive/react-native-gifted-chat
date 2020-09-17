@@ -23,8 +23,8 @@ const textStyle = {
 const styles = {
   left: StyleSheet.create({
     container: {
-      flexDirection:"column",
-  
+      flexDirection: 'column',
+
       ...containerStyle,
     },
     text: {
@@ -34,13 +34,13 @@ const styles = {
   }),
   right: StyleSheet.create({
     container: {
-      flexDirection:"column",
-      justifyContent:"flex-end",
-      alignItems:"flex-end",
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
       ...containerStyle,
     },
     text: {
-      color:"#6F7783",
+      color: '#6F7783',
       ...textStyle,
     },
   }),
@@ -102,16 +102,19 @@ export default class Time<
             containerStyle && containerStyle[position],
           ]}
         >
-           {position == "right" &&      <Text
-           style={
-            [
-              styles[position].text,
-              timeTextStyle && timeTextStyle[position],
-            ] as TextStyle
-          }
-         
-          >อ่านแล้ว</Text>}
-     
+          {position == 'right' && (
+            <Text
+              style={
+                [
+                  styles[position].text,
+                  timeTextStyle && timeTextStyle[position],
+                ] as TextStyle
+              }
+            >
+              {currentMessage.isRead === true && <Text>อ่านแล้ว</Text>}
+            </Text>
+          )}
+
           <Text
             style={
               [
@@ -120,7 +123,9 @@ export default class Time<
               ] as TextStyle
             }
           >
-            {moment(currentMessage.createdAt, "YYYY-MM-DD HH:mm:ss").format("HH:mm")}
+            {moment(currentMessage.createdAt, 'YYYY-MM-DD HH:mm:ss').format(
+              'HH:mm',
+            )}
           </Text>
         </View>
       )
